@@ -55,60 +55,63 @@ import {
   validatePwd,
   validateEmail
 } from "@/tools/validate";
-import { reactive, ref } from "@vue/composition-api";
+import obj from "@/tools/validate";
 export default {
   name: "Login",
-  setup(props, context) {
-    // composition api的入口,放置data,method,生命周期函数
-    const validatePwd2 = (rule, value, callback) => {
-      if (mode.value === "login") callback();
+  data() {
+    let validatePwd2 = (rule, value, callback) => {
+      if (this.mode === "login") callback();
+      let reg = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
+      let len = value.length;
+      let res = stripscript(value).length;
       if (value === "") {
         callback(new Error("请输入密码"));
-      } else if (value !== ruleForm.pwd) {
+      } else if (value !== this.ruleForm.pwd) {
         callback(new Error("两次密码不一致，请重新输入"));
       } else {
         callback();
       }
     };
-    const menuTab = reactive([
-      {
-        name: "登录",
-        current: true,
-        type: "login"
+    return {
+      menuTab: [
+        {
+          name: "登录",
+          current: true,
+          type: "login"
+        },
+        {
+          name: "注册",
+          current: false,
+          type: "register"
+        }
+      ],
+      mode: "login",
+      ruleForm: {
+        email: "",
+        pwd: "",
+        pwd2: "",
+        code: ""
       },
-      {
-        name: "注册",
-        current: false,
-        type: "register"
+      rules: {
+        email: [{ validator: validateEmail, trigger: "blur" }],
+        pwd: [{ validator: validatePwd, trigger: "blur" }],
+        pwd2: [{ validator: validatePwd2, trigger: "blur" }],
+        code: [{ validator: validateCode, trigger: "blur" }]
       }
-    ]);
+    };
+  },
 
-    const mode = ref("login");
-    const ruleForm = reactive({
-      email: "",
-      pwd: "",
-      pwd2: "",
-      code: ""
-    });
-
-    const rules = reactive({
-      email: [{ validator: validateEmail, trigger: "blur" }],
-      pwd: [{ validator: validatePwd, trigger: "blur" }],
-      pwd2: [{ validator: validatePwd2, trigger: "blur" }],
-      code: [{ validator: validateCode, trigger: "blur" }]
-    });
-
-    // methods
-    const toggle = item => {
-      menuTab.forEach(ele => {
+  methods: {
+    toggle(item) {
+      this.menuTab.forEach(ele => {
         ele.current = false;
       });
       item.current = true;
-      mode.value = item.type;
-      context.refs.ruleForm.resetFields();
-    };
-    const submitForm = formName => {
-      context.refs[formName].validate(valid => {
+      this.mode = item.type;
+      this.$refs.ruleForm.resetFields();
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           alert("submit!");
         } else {
@@ -116,20 +119,10 @@ export default {
           return false;
         }
       });
-    };
-    const resetForm = formName => {
-      context.refs[formName].resetFields();
-    };
-
-
-    return {
-      mode,
-      menuTab,
-      toggle,
-      ruleForm,
-      rules,
-      submitForm
-    };
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   }
 };
 </script>

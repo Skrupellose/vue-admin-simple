@@ -1,3 +1,15 @@
-body {
-  background-color: red;
+body, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  font-size: 16px;
+}
+
+li {
+  list-style: none;
+}
+.el-form-item__error{
+  color: #000;
 }
