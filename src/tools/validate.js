@@ -38,9 +38,6 @@ export function validatePwd(rule, value, callback) {
   }
 }
 
-// 确定密码校验
-
-
 
 // 邮箱校验
 
@@ -52,5 +49,14 @@ export function validateEmail(rule, value, callback) {
     callback(new Error("邮箱格式错误"));
   } else {
     callback();
+  }
+}
+
+export function validateEmail2(value) {
+  let reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+  if (reg.test(value)) {
+    return true
+  } else {
+    return false
   }
 }
