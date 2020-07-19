@@ -9,7 +9,6 @@ requireAll(req)
 const mySvg = {
   install: function (Vue) {
     Vue.component('svgIcon', svg)
-
   }
 }
 export default mySvg

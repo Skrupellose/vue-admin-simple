@@ -1,7 +1,9 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconName" />
-  </svg>
+  <div class="svgControl">
+    <svg :class="svgClass" aria-hidden="true">
+      <use :xlink:href="iconName" />
+    </svg>
+  </div>
 </template>
 
 <script>
@@ -12,7 +14,7 @@ export default {
       type: String,
       required: true
     },
-    className: {
+    styles: {
       type: String,
       default: ''
     }
@@ -21,8 +23,8 @@ export default {
     // data
     const iconName = computed(() => `#icon-${props.icon}`)
     const svgClass = computed(() => {
-      if (props.className) {
-        return `svg-icon ${props.className}`
+      if (props.styles) {
+        return `svg-icon ${props.styles}`
       } else {
         return 'svg-icon'
       }
@@ -36,18 +38,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.svg-icon {
-  width: 1rem;
-  height: 1rem;
-  // fill: currentColor;
-  color: #fff;
-  &.font-m {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  &.font-lg {
-    width: 2rem;
-    height: 2rem;
+.svgControl {
+  display: inline-block;
+  padding-bottom: 2px;
+  .svg-icon {
+    width: 1rem;
+    height: 1rem;
+    // margin-right: 0.5rem;
+    // fill: currentColor;
+    // color: #fff;
+    &.font-m {
+      width: 2rem;
+      height: 2rem;
+    }
+    &.font-lg {
+      width: 3rem;
+      height: 3rem;
+    }
   }
 }
 </style>

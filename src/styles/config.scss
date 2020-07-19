@@ -1,3 +1,21 @@
 // layout nav-width
 $nav-w: 250px;
-$navColor: #f56363
+$nav-minw: 64px;
+$navColor: #f56363;
+$header-h: 75px;
+
+@mixin webkit($type, $value) {
+  -webkit-#{$type}: $value;
+  -moz-#{$type}: $value;
+  -o-#{$type}: $value;
+  -ms-#{$type}: $value;
+  #{$type}: $value;
+}
+
+// tool css
+.f-l {
+  float: left;
+}
+.f-r {
+  float: right;
+}

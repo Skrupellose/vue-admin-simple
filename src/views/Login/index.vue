@@ -124,6 +124,17 @@ export default {
       resetForm('ruleForm')
       initCountDown(false, '获取验证码')
     }
+    const login = data => {
+      root.$store.dispatch('app/Login', data).then(res => {
+        console.log('登录成功')
+        root.$message.success(res.message + '马上为您跳转')
+        initCountDown(false, '获取验证码')
+        resetForm('ruleForm')
+        setTimeout(() => {
+          root.$router.push('/index')
+        }, 1500)
+      })
+    }
     // 验证码
     const getSms = () => {
       if (ruleForm.email === '') {
@@ -160,18 +171,11 @@ export default {
             register(data).then(res => {
               root.$message.success(res.message)
               toggle(menuTab[0])
-              initCountDown(false,'获取验证码')
+              initCountDown(false, '获取验证码')
               resetForm('ruleForm')
             })
           } else {
-            login(data).then(res => {
-              root.$message.success(res.message + '马上为您跳转')
-              initCountDown(false,'获取验证码')
-              resetForm('ruleForm')
-              setTimeout(()=>{
-                root.$router.push('/index')
-              },1500)
-            })
+            login(data)
           }
         } else {
           root.$message.error(res.message)
@@ -190,13 +194,13 @@ export default {
         time--
         if (time === 0) {
           clearInterval(timer.value)
-          initCountDown(false,'再次获取')
+          initCountDown(false, '再次获取')
         } else {
           codeText.value = `倒计时${time}`
         }
       }, 1000)
     }
-    const initCountDown = (status,text) => {
+    const initCountDown = (status, text) => {
       clearInterval(timer.value)
       codeStatus.value = status
       codeText.value = text
